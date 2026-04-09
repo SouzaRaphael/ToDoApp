@@ -3,44 +3,30 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  // ─── Color Palette ───────────────────────────────────────────────────────────
 
-  /// Fundo geral da tela (off-white levemente azulado)
   static const Color scaffoldBackground = Color(0xFFF2F2F8);
 
-  /// Superfície dos cards / itens da lista
   static const Color cardBackground = Color(0xFFFFFFFF);
 
-  /// Cor primária (roxo/violeta dos checkboxes e estrelas ativas)
   static const Color primary = Color(0xFF6C63D5);
 
-  /// Variação mais clara do primário (ícone de estrela favorita preenchida)
   static const Color primaryLight = Color(0xFF9B95E0);
 
-  /// Cor de texto principal (títulos e itens não concluídos)
   static const Color textPrimary = Color(0xFF1E1E2D);
 
-  /// Cor de texto secundário (subtítulos, hints, itens concluídos)
   static const Color textSecondary = Color(0xFF9090A8);
 
-  /// Cor de texto do hint do campo "Add a task..."
   static const Color textHint = Color(0xFFB0B0C3);
 
-  /// Cor da borda dos cards e do checkbox não marcado
   static const Color border = Color(0xFFE4E4EF);
 
-  /// Cor do ícone "+" do campo de adicionar tarefa
   static const Color iconAdd = Color(0xFFB0B0C3);
 
-  /// Cor dos ícones da AppBar (menu hambúrguer e lupa)
   static const Color iconAppBar = Color(0xFFB0B0C3);
 
-  // ─── Typography ─────────────────────────────────────────────────────────────
-
-  static const String _fontFamily = 'SF Pro Display'; // troque pela sua fonte
+  static const String _fontFamily = 'SF Pro Display';
 
   static const TextTheme textTheme = TextTheme(
-    /// Título da lista ("Groceries")
     headlineMedium: TextStyle(
       fontFamily: _fontFamily,
       fontSize: 28,
@@ -49,7 +35,6 @@ class AppTheme {
       letterSpacing: -0.5,
     ),
 
-    /// Contador de itens ("8/9" ao lado do título)
     labelSmall: TextStyle(
       fontFamily: _fontFamily,
       fontSize: 13,
@@ -57,7 +42,6 @@ class AppTheme {
       color: textSecondary,
     ),
 
-    /// Texto dos itens da lista
     bodyMedium: TextStyle(
       fontFamily: _fontFamily,
       fontSize: 15,
@@ -66,7 +50,6 @@ class AppTheme {
       height: 1.4,
     ),
 
-    /// Texto dos itens concluídos (com strikethrough aplicado no widget)
     bodySmall: TextStyle(
       fontFamily: _fontFamily,
       fontSize: 15,
@@ -76,7 +59,6 @@ class AppTheme {
       decorationColor: textSecondary,
     ),
 
-    /// Placeholder "Add a task..."
     titleMedium: TextStyle(
       fontFamily: _fontFamily,
       fontSize: 14,
@@ -84,8 +66,6 @@ class AppTheme {
       color: textHint,
     ),
   );
-
-  // ─── Component Themes ────────────────────────────────────────────────────────
 
   static CheckboxThemeData get checkboxTheme => CheckboxThemeData(
         shape: const CircleBorder(),
@@ -128,8 +108,6 @@ class AppTheme {
           borderSide: const BorderSide(color: primary, width: 1.2),
         ),
       );
-
-  // ─── ThemeData principal ─────────────────────────────────────────────────────
 
   static ThemeData get lightTheme => ThemeData(
         useMaterial3: true,

@@ -31,18 +31,21 @@ class _ToDoScreenState extends State<ToDoScreen> {
                 child: ListView.builder(
                   itemCount: taskList.length,
                   itemBuilder: (context, index) => taskList.isNotEmpty 
-                  ? Text(taskList[index].name)
+                  ? Card(child: Row(
+                    children: [
+                      Checkbox(value: false, onChanged: (value) => (setState(() {
+                        // value! ? value = true : value = false;
+                      }))),
+                      Text("treste")
+                    ],
+                  ))
                   : Text("texto")
                 )
               ),
               TextField(
-                cursorColor: Colors.black,
-                style: TextStyle(
-                  color: Colors.black
-                ),
                 decoration: InputDecoration(
-                  prefixIconColor: Colors.black,
-                  prefixIcon: Icon(Icons.add)
+                  prefixIcon: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.add)),
+                  hintText: "Add a task...",
                 )
               ),
             ],
