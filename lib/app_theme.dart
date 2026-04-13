@@ -22,9 +22,9 @@ class AppTheme {
 
   static const Color iconAdd = Color(0xFFB0B0C3);
 
-  static const Color iconAppBar = Color(0xFFB0B0C3);
+  static const Color iconSend = Color(0xFF6C63D5);
 
-  static const String _fontFamily = 'SF Pro Display';
+  static const String _fontFamily = "Outfit";
 
   static const TextTheme textTheme = TextTheme(
     headlineMedium: TextStyle(
@@ -130,6 +130,6 @@ class AppTheme {
           thickness: 0.5,
           space: 0,
         ),
-        iconTheme: const IconThemeData(color: iconAppBar, size: 20),
+        iconTheme: const IconThemeData(color: iconAdd, size: 20),
       );
 }
