@@ -13,6 +13,10 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   final inputController = TextEditingController();
 
+  final FocusNode _focusNode = FocusNode();
+
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
   @override
   void initState() {
     super.initState();
@@ -22,7 +26,38 @@ class _ToDoScreenState extends State<ToDoScreen> {
   void addTask(String taskName) {
     setState(() {
       taskList.add(Task(name: taskName, done: false));
+      _listKey.currentState?.insertItem(taskList.length - 1, duration: const Duration(milliseconds: 300));
       inputController.clear();
+      _focusNode.requestFocus();
+    });
+  }
+
+  void removeTask(int index) {
+    final removedTask = taskList[index];
+
+    _listKey.currentState?.removeItem(
+      index,
+      (context, animation) => SizeTransition(
+        sizeFactor: animation,
+        child: Card(
+          child: Row(
+            children: [
+              Checkbox(value: removedTask.done, onChanged: null),
+              const SizedBox(width: 8),
+              Expanded(child: Text(removedTask.name)),
+              const IconButton(
+                onPressed: null,
+                icon: Icon(Icons.delete_outline),
+              ),
+            ],
+          ),
+        ),
+      ),
+      duration: const Duration(milliseconds: 300),
+    );
+
+    setState(() {
+      taskList.removeAt(index);
     });
   }
 
@@ -40,51 +75,67 @@ class _ToDoScreenState extends State<ToDoScreen> {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Text("To Do app", style: textTheme.headlineMedium,)
+                child: Text("To Do app", style: textTheme.headlineMedium),
               ),
               Expanded(
-                child: taskList.isNotEmpty 
-                ? ListView.builder(
-                  itemCount: taskList.length,
-                  itemBuilder: (context, index) => Card(child: Row(
-                    children: [
-                      Checkbox(
-                        value: taskList[index].done, 
-                        onChanged: (value) => setState(() {
-                          taskList[index].done = value!;
-                        })
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(child: Text(taskList[index].name)),
-                      IconButton(
-                        onPressed: () => setState(() {
-                          taskList.removeAt(index);
-                        }),
-                        icon: Icon(Icons.delete_outline)
-                      )
-                    ],
-                  ))
-                )
-                : Center(child: Text("No task added", style: textTheme.titleMedium,))
+                child: Stack(
+                  children: [
+                    AnimatedList(
+                      key: _listKey,
+                      initialItemCount: taskList.length,
+                      itemBuilder: (context, index, animation) =>
+                          SizeTransition(
+                            sizeFactor: animation,
+                            child: Card(
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: taskList[index].done,
+                                    onChanged: (value) => setState(() {
+                                      taskList[index].done = value!;
+                                    }),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(child: Text(taskList[index].name)),
+                                  IconButton(
+                                    onPressed: () => removeTask(index),
+                                    icon: const Icon(Icons.delete_outline),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                    ),
+                    if (taskList.isEmpty)
+                      Center(child: Text("No task added", style: textTheme.titleMedium))
+                  ],
+                ),
               ),
               TextField(
                 controller: inputController,
                 onSubmitted: (value) => addTask(value),
+                focusNode: _focusNode,
                 decoration: InputDecoration(
-                  prefixIcon: IconTheme(data: iconTheme, child: Icon(Icons.add)),
+                  prefixIcon: IconTheme(
+                    data: iconTheme,
+                    child: Icon(Icons.add),
+                  ),
                   hintText: "Add a task...",
                   suffixIcon: inputController.text.isNotEmpty
-                  // ? Icon(Icons.send, color: Theme.of(context).primaryColor)
-                  ? IconButton(
-                    onPressed: () => addTask(inputController.text), 
-                    icon: Icon(Icons.send, color: Theme.of(context).primaryColor)
-                  )
-                  : null
-                )
+                      // ? Icon(Icons.send, color: Theme.of(context).primaryColor)
+                      ? IconButton(
+                          onPressed: () => addTask(inputController.text),
+                          icon: Icon(
+                            Icons.send,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        )
+                      : null,
+                ),
               ),
             ],
           ),
-        )
+        ),
       ),
     );
   }
